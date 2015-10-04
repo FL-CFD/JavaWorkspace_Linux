@@ -29,6 +29,10 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// class to indicate the depth of the earthquake.
 		// Simply draw a centered circle.
 		
+		float a = Float.parseFloat(properties.get("radius").toString());
+		
+		pg.ellipse(x, y, a, a);
+		
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
 		

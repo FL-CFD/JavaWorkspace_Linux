@@ -26,6 +26,12 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		// class to indicate the depth of the earthquake.
 		// Simply draw a centered square.
 		
+		float a = Float.parseFloat(properties.get("radius").toString());
+		
+		pg.rect(x-a/2, y-a/2, a, a);
+		
+		
+		
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
 		

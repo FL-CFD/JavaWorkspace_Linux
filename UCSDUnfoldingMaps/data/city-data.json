@@ -14,6 +14,7 @@
 {"type":"Feature","properties":{"name":"Taipei", "population":"2.70", "country" : "Taiwan", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[121.6333, 25.0333]}},
 {"type":"Feature","properties":{"name":"Hong Kong", "population":"7.23", "country" : "China", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[114.1747, 22.2783]}},
 {"type":"Feature","properties":{"name":"Shanghai", "population":"24.26", "country" : "China", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[121.5000, 31.2000]}},
+{"type":"Feature","properties":{"name":"Beijing", "population":"20.11", "country" : "China", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[116.3833, 39.9167]}},
 {"type":"Feature","properties":{"name":"San Juan", "population":"0.39", "country" : "Puerto Rico", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[-66.0667, 18.4500]}},
 {"type":"Feature","properties":{"name":"Nairobi", "population":"3.14", "country" : "Kenya", "coastal" : "false"},"geometry":{"type":"Point","coordinates":[36.8167, -1.2833]}},
 {"type":"Feature","properties":{"name":"Bergen", "population":"0.27", "country" : "Norway", "coastal" : "true"},"geometry":{"type":"Point","coordinates":[5.3300, 60.3894]}},

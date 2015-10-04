@@ -95,7 +95,6 @@ public class EarthquakeCityMap extends PApplet {
 	    int red    = color(255,0,0);
 	    //TODO: Add code here as appropriate
 	    
-	    
 	    for (PointFeature earthquake : earthquakes){
 	    	
 	    	SimplePointMarker marker = createMarker(earthquake);
@@ -120,8 +119,6 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 	    
 	    map.addMarkers(markers);
-	    
-	    
 	    
 	} // end of setup method
 		

@@ -20,7 +20,7 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Feilin Jia
  * Date: July 17, 2015
  * */
 public class EarthquakeCityMap extends PApplet {
@@ -73,14 +73,14 @@ public class EarthquakeCityMap extends PApplet {
 		    //earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
-		
+
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -99,6 +99,7 @@ public class EarthquakeCityMap extends PApplet {
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    quakeMarkers = new ArrayList<Marker>();
 	    
+	    
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
@@ -109,6 +110,11 @@ public class EarthquakeCityMap extends PApplet {
 		    quakeMarkers.add(new OceanQuakeMarker(feature));
 		  }
 	    }
+	    
+	    //for (Marker qm : quakeMarkers){
+	    //	System.out.println(qm.getProperties());
+	    //}
+	    
 
 	    // could be used for debugging
 	    printQuakes();
@@ -140,7 +146,7 @@ public class EarthquakeCityMap extends PApplet {
 		textAlign(LEFT, CENTER);
 		textSize(12);
 		text("Earthquake Key", 50, 75);
-		
+		/*
 		fill(color(255, 0, 0));
 		ellipse(50, 125, 15, 15);
 		fill(color(255, 255, 0));
@@ -151,7 +157,58 @@ public class EarthquakeCityMap extends PApplet {
 		fill(0, 0, 0);
 		text("5.0+ Magnitude", 75, 125);
 		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("Below 4.0", 75, 225);*/
+		
+		fill(color(249, 15, 187));
+		triangle(60,95+55/5,60+28/5,95,60+56/5,95+55/5);
+		fill(0);
+		text("City Markers", 60+56/5 + 10, 95);
+		
+		
+		fill(255,255,255);
+		
+		ellipse(60+28/5, 120, 10, 10);
+		fill(0);
+		text("Land Quake", 60+56/5 + 20, 120);
+		fill(255,255,255);
+		rect(60, 135, 10, 10);
+		fill(0);
+		text("Ocean Quake", 60+56/5 + 20, 135);
+		
+		
+		fill(0);
+		textAlign(LEFT, CENTER);
+		textSize(12);
+		text("Size ~ Magnitude", 50, 150);
+		
+	    int yellow = color(255, 255, 0);
+	    int blue   = color(0, 0, 255);
+	    int red    = color(255,0,0);
+		
+		fill(yellow);
+		ellipse(60+28/5, 170, 10, 10);
+		fill(0);
+		text("Shallow", 60+56/5 + 20, 170);
+		
+		fill(blue);
+		ellipse(60+28/5, 190, 10, 10);
+		fill(0);
+		text("Intermediate",60+56/5 + 20, 190);
+		
+		fill(red);
+		ellipse(60+28/5, 210, 10, 10);
+		fill(0);
+		text("Deep",60+56/5 + 20, 210);
+		
+		fill(255,255,255);
+		ellipse(60+28/5, 230, 10, 10);
+		line(60+28/5-5, 230-5, 60+28/5+5, 230+5);
+		line(60+28/5+5, 230-5, 60+28/5-5, 230+5);
+		
+		fill(0);
+		text("Past Day",60+56/5 + 20, 230);
+		
+		
 	}
 
 	
@@ -163,6 +220,12 @@ public class EarthquakeCityMap extends PApplet {
 	private boolean isLand(PointFeature earthquake) {
 		
 		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
+		
+		for (Marker country: countryMarkers){
+			if (isInCountry(earthquake, country) == true){
+				return true;
+			}
+		}
 		
 		// TODO: Implement this method using the helper method isInCountry
 		
@@ -178,6 +241,34 @@ public class EarthquakeCityMap extends PApplet {
 	// And LandQuakeMarkers have a "country" property set.
 	private void printQuakes() 
 	{
+		
+		for (Marker country : countryMarkers){
+			
+			int count = 0;
+			
+			for (Marker quakemarker: quakeMarkers){
+				if(quakemarker instanceof LandQuakeMarker){
+					if(((LandQuakeMarker) quakemarker).getCountry() == country.getProperty("name")){
+						count++;
+					}
+				}
+			}
+			
+			if (count != 0){
+				System.out.println(country.getProperty("name") + " : " + count) ;
+			}
+		}
+		
+		int countOcean = 0;
+		
+		for (Marker quakemarker: quakeMarkers){
+			if(quakemarker instanceof OceanQuakeMarker){
+			countOcean++;
+			}
+		}
+
+		System.out.println("Ocean EarthQuakes" + " : " + countOcean) ;
+		
 		// TODO: Implement this method
 	}
 	

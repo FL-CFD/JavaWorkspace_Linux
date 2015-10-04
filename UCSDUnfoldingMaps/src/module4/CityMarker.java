@@ -43,6 +43,8 @@ public class CityMarker extends SimplePointMarker {
 		pg.pushStyle();
 		
 		// TODO: Add code to draw a triangle to represent the CityMarker
+		pg.fill(249, 15, 187);
+		pg.triangle(x, y, x+28/5, y-55/5, x+56/5, y);
 		
 		// Restore previous drawing style
 		pg.popStyle();
