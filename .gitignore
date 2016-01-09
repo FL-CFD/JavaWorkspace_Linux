@@ -2,7 +2,11 @@
 .recommenders/
 moocPoker/bin/
 UCSDUnfoldingMaps/build/
-
+*.class
+*.classpath
+*.txt
+*.xml
+!*.java
 
 appcompat_v7/
 

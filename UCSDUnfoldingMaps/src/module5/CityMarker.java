@@ -1,8 +1,12 @@
 package module5;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -17,6 +21,16 @@ import processing.core.PGraphics;
 // in module 5 (i.e. CityMarker extends CommonMarker).  It will cause an error.
 // That's what's expected.
 public class CityMarker extends SimplePointMarker {
+	
+	
+	public int numquake;
+	
+	public List<Marker> nearbyQuakes; 
+	
+	public float amag;
+	
+	public boolean showMenu;
+	
 	
 	public static int TRI_SIZE = 5;  // The size of the triangle marker
 	

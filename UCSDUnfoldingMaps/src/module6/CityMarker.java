@@ -1,8 +1,12 @@
 package module6;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.marker.Marker;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 
@@ -14,6 +18,10 @@ import processing.core.PGraphics;
 public class CityMarker extends CommonMarker {
 	
 	public static int TRI_SIZE = 5;  // The size of the triangle marker
+	
+	public List<Marker> nearbyQuakes = new ArrayList<Marker>(); 
+	
+	public float amag;
 	
 	public CityMarker(Location location) {
 		super(location);
@@ -84,4 +92,30 @@ public class CityMarker extends CommonMarker {
 	{
 		return Float.parseFloat(getStringProperty("population"));
 	}
+	
+	@Override
+	public void showinfo(PGraphics pg, float x, float y){
+		
+		String s1 = "There are "+this.nearbyQuakes.size()+" nearby quakes.";
+		String s2 = "The averaged magnitude is " + this.amag;
+		
+		pg.pushStyle();
+		
+		pg.fill(255, 255, 255);
+		pg.textSize(12);
+		pg.rectMode(PConstants.CORNER);
+		pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(s1), pg.textWidth(s2)) + 6, 39);
+		pg.fill(0, 0, 0);
+		pg.textAlign(PConstants.LEFT, PConstants.TOP);
+		pg.text(s1, x+3, y-TRI_SIZE-33);
+		
+		if(this.nearbyQuakes.size() != 0){
+			pg.text(s2, x+3, y - TRI_SIZE -18);
+		}
+		
+		pg.popStyle();
+		
+		
+	}
+	
 }
