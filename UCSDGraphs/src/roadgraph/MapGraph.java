@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 //import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -259,9 +260,58 @@ public class MapGraph {
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		if(vertexMap.get(start)==null||vertexMap.get(goal)==null) return null;
+		int count = 0;
+		List<GeographicPoint> path = new ArrayList<GeographicPoint>();
+		PriorityQueue<MapNodeDijkstra> queue= new PriorityQueue<MapNodeDijkstra>(); 
+		HashSet<MapNodeDijkstra> visited = new HashSet<MapNodeDijkstra>();
+		HashMap<MapNodeDijkstra, MapNodeDijkstra> parent = new HashMap<MapNodeDijkstra, MapNodeDijkstra>();
 		
+		//HashMap<MapNode, MapNode> parent = new HashMap<MapNode, MapNode>();
+		
+		Set<Map.Entry<GeographicPoint, MapNode>> set = vertexMap.entrySet();
+		for(Map.Entry<GeographicPoint, MapNode> entry: set){
+			vertexMap.put(entry.getKey(), new MapNodeDijkstra(entry.getValue()));
+		}
+		
+		MapNodeDijkstra startNode = (MapNodeDijkstra)(vertexMap.get(start));
+		
+		startNode.setDistStart(0.0);
+		
+		queue.add(startNode);
+		while(!queue.isEmpty()){
+			MapNodeDijkstra curr = queue.remove();
+			count += 1;
+			if(!visited.contains(curr)){
+				visited.add(curr);
+				nodeSearched.accept(curr.getLocation());
+				if(curr.getLocation().equals(goal)){
+					//return parentMapToPath(parent, start, goal);
+					path.add(curr.getLocation());
+					while(!curr.getLocation().equals(start)){
+						curr = parent.get(curr);
+						path.add(curr.getLocation());
+					}
+					Collections.reverse(path);
+					System.out.println(count+"");
+					return path;
+				}
+				List<MapEdge> curredges = curr.getEdges();
+				for(MapEdge mapEdge:curredges){
+					MapNodeDijkstra eNode = (MapNodeDijkstra)(vertexMap.get(mapEdge.getEnd()));
+					if(visited.contains(eNode)) continue;
+					double updateDist = curr.getDistStart()+mapEdge.getDistance();
+					if(updateDist <= eNode.getDistStart()){
+						eNode.setDistStart(updateDist);
+						parent.put(eNode, curr);
+						queue.add(eNode);
+					}
+				}
+			}
+		}
 		return null;
 	}
+	
 
 	/** Find the path from start to goal using A-Star search
 	 * 
@@ -292,6 +342,55 @@ public class MapGraph {
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
 		
+		if(vertexMap.get(start)==null||vertexMap.get(goal)==null) return null;
+		int count = 0;
+		List<GeographicPoint> path = new ArrayList<GeographicPoint>();
+		PriorityQueue<MapNodeAStar> queue= new PriorityQueue<MapNodeAStar>(); 
+		HashSet<MapNodeAStar> visited = new HashSet<MapNodeAStar>();
+		HashMap<MapNodeAStar, MapNodeAStar> parent = new HashMap<MapNodeAStar, MapNodeAStar>();
+		
+		Set<Map.Entry<GeographicPoint, MapNode>> set = vertexMap.entrySet();
+		for(Map.Entry<GeographicPoint, MapNode> entry: set){
+			vertexMap.put(entry.getKey(), new MapNodeAStar(entry.getValue()));
+		}
+		
+		MapNodeAStar startNode = (MapNodeAStar)(vertexMap.get(start));
+		
+		startNode.setDistStart(0.0);
+		startNode.setDistGoal(0.0);
+		
+		queue.add(startNode);
+		while(!queue.isEmpty()){
+			MapNodeAStar curr = queue.remove();
+			count += 1;
+			if(!visited.contains(curr)){
+				visited.add(curr);
+				nodeSearched.accept(curr.getLocation());
+				if(curr.getLocation().equals(goal)){
+					//return parentMapToPath(parent, start, goal);
+					path.add(curr.getLocation());
+					while(!curr.getLocation().equals(start)){
+						curr = parent.get(curr);
+						path.add(curr.getLocation());
+					}
+					Collections.reverse(path);
+					System.out.println(count+"");
+					return path;
+				}
+				List<MapEdge> curredges = curr.getEdges();
+				for(MapEdge mapEdge:curredges){
+					MapNodeAStar eNode = (MapNodeAStar)(vertexMap.get(mapEdge.getEnd()));
+					if(visited.contains(eNode)) continue;
+					double updateDist = curr.getDistStart()+mapEdge.getDistance();
+					if(updateDist <= eNode.getDistStart()){
+						eNode.setDistStart(updateDist);
+						eNode.setDistGoal(eNode.getDist(goal));
+						parent.put(eNode, curr);
+						queue.add(eNode);
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -299,15 +398,16 @@ public class MapGraph {
 	
 	public static void main(String[] args)
 	{
+		/*
 		System.out.print("Making a new map...");
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", theMap);
 		System.out.println("DONE.");
 		
-		GeographicPoint start = new GeographicPoint(4, 4);
+		GeographicPoint start = new GeographicPoint(1, 1);
 		GeographicPoint goal = new GeographicPoint(8, -1);
-		List<GeographicPoint> path = theMap.bfs(start, goal);
+		List<GeographicPoint> path = theMap.aStarSearch(start, goal);
 		if(path == null){
 			System.out.println("path is null!");
 		}else{
@@ -315,11 +415,12 @@ public class MapGraph {
 				System.err.println(gp.getX()+""+", "+gp.getY()+"");
 			}
 		}
-		
+		*/
+
 		
 		// You can use this method for testing.  
 		
-		/* Use this code in Week 3 End of Week Quiz
+		// Use this code in Week 3 End of Week Quiz
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
@@ -332,7 +433,7 @@ public class MapGraph {
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
-		*/
+		
 		
 	}
 	

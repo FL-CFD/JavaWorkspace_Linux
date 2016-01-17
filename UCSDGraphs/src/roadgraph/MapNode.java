@@ -10,6 +10,11 @@ public class MapNode {
 	private GeographicPoint location;
 	private List<MapEdge> edges;
 	
+	public MapNode(){
+		location = null;
+		edges = null;
+	}
+	
 	public MapNode(GeographicPoint loc){
 		location = loc;
 		edges = new ArrayList<MapEdge>();

@@ -7,6 +7,7 @@ UCSDUnfoldingMaps/build/
 *.txt
 *.xml
 !*.java
-
+*.map
+*.zip
 appcompat_v7/
 
