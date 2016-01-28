@@ -1,5 +1,6 @@
 package document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** 
@@ -81,6 +82,15 @@ public class BasicDocument extends Document
 	 * You are encouraged to add your own tests.  */
 	public static void main(String[] args)
 	{
+		
+		BasicDocument bDocument = new BasicDocument("one (1), two (2), three (3)");
+		List<String> testStrings;
+		testStrings = bDocument.getTokens("[a-z()0-9]+");
+		
+		for(String string:testStrings){
+			System.out.println(string);
+		}
+		/*
 		testCase(new BasicDocument("This is a test.  How many???  "
 		        + "Senteeeeeeeeeences are here... there should be 5!  Right?"),
 				16, 13, 5);
@@ -97,7 +107,7 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
-		
+		*/
 		
 	}
 	
